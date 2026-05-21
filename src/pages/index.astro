@@ -14,7 +14,7 @@ import '../styles/global.css';
 </head>
 <body class="bg-[#0a0a0f] text-white min-h-screen flex flex-col items-center justify-center px-6 py-16 font-sans">
 
-  <main class="w-full max-w-lg flex flex-col items-center text-center gap-8">
+  <main class="w-full max-w-2xl flex flex-col items-center text-center gap-8">
 
     <!-- Avatar -->
     <img
@@ -38,7 +38,7 @@ import '../styles/global.css';
       Cu curiozitate și oameni care m-au susținut, am găsit soluții pentru fiecare.
     </p>
     <p class="text-gray-400 leading-relaxed">
-      Și de la pasiunea pentru fotografie și film am ajuns la creator de conținut.
+      Iar de la pasiunea pentru fotografie și film am ajuns la creator de conținut.
     </p>
 
     <!-- Social links -->
@@ -64,37 +64,48 @@ import '../styles/global.css';
         </svg>
         GitHub
       </a>
+      <a href="https://t.me/viatacudoru" target="_blank" rel="noopener noreferrer"
+         class="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-white/10 bg-white/5 text-gray-400 hover:text-sky-400 hover:border-sky-500/30 hover:bg-sky-500/10 transition-all duration-300 text-sm font-medium">
+        <svg class="w-4 h-4" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/>
+        </svg>
+        Telegram
+      </a>
     </div>
 
-    <!-- Majordom bio -->
-    <p class="text-gray-400 leading-relaxed">
-      În timpul liber, construiesc un asistent personal numit <span class="text-white font-semibold">Majordom</span> care va lucra pentru mine, nu pentru corporații.
-    </p>
+    <!-- Butoane side by side -->
+    <div class="grid grid-cols-2 gap-4 w-full">
 
-    <!-- Butoane -->
-    <div class="flex flex-col gap-4 w-full">
-      <a
-        href="https://majordom.dorustoica.ro"
-        target="_blank"
-        rel="noopener noreferrer"
-        class="w-full px-6 py-4 rounded-2xl border border-emerald-500/30 bg-emerald-500/5 hover:bg-emerald-500/10 hover:border-emerald-500/50 transition-all duration-300 text-left"
-      >
-        <div class="text-emerald-400 font-medium text-sm flex items-center gap-2 mb-1">
-          🏛️ Filozofia Majordom
-        </div>
-        <div class="text-gray-500 text-xs">Proiectul la care lucrez în public</div>
-      </a>
-      <a
-        href="https://cal.com/dorulian"
-        target="_blank"
-        rel="noopener noreferrer"
-        class="w-full px-6 py-4 rounded-2xl border border-white/10 bg-white/5 hover:bg-white/10 hover:border-white/30 transition-all duration-300 text-left"
-      >
-        <div class="text-gray-300 font-medium text-sm flex items-center gap-2 mb-1">
-          📅 Rezervă o sesiune
-        </div>
-        <div class="text-gray-500 text-xs">Căutăm împreună soluția la provocarea ta</div>
-      </a>
+      <!-- Consultanta -->
+      <div class="flex flex-col gap-2">
+        <a
+          href="https://cal.com/dorulian"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="w-full px-5 py-4 rounded-2xl border border-white/10 bg-white/5 hover:bg-white/10 hover:border-white/30 transition-all duration-300 text-left h-full"
+        >
+          <div class="text-gray-300 font-medium text-sm flex items-center gap-2 mb-1">
+            📅 Rezervă o sesiune
+          </div>
+          <div class="text-gray-500 text-xs">Consultanță 1-la-1 de self-hosting, AI local și development cu Claude Code.</div>
+        </a>
+      </div>
+
+      <!-- Majordom -->
+      <div class="flex flex-col gap-2">
+        <a
+          href="https://majordom.dorustoica.ro"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="w-full px-5 py-4 rounded-2xl border border-emerald-500/30 bg-emerald-500/5 hover:bg-emerald-500/10 hover:border-emerald-500/50 transition-all duration-300 text-left h-full"
+        >
+          <div class="text-emerald-400 font-medium text-sm flex items-center gap-2 mb-1">
+            🏛️ Filozofia Majordom
+          </div>
+          <div class="text-gray-500 text-xs">Asistentul personal care lucrează pentru mine.</div>
+        </a>
+      </div>
+
     </div>
 
     <!-- Substack -->
