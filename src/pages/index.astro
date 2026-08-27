@@ -133,6 +133,7 @@ try {
     background: var(--bg);
     color: var(--ink);
     font-family: 'IBM Plex Sans', sans-serif;
+    font-size: 17px;
     line-height: 1.6;
     -webkit-font-smoothing: antialiased;
   }
@@ -191,13 +192,13 @@ try {
 
   .brand{ display:flex; align-items:center; gap: 12px; text-decoration: none; color: var(--ink); }
   .brand-text{ display:flex; flex-direction:column; line-height:1.25; }
-  .brand-name{ font-family: 'IBM Plex Mono', monospace; font-weight: 600; font-size: 13px; letter-spacing: 0.05em; }
-  .brand-tag{ font-family: 'IBM Plex Mono', monospace; font-size: 10px; color: var(--accent-warm); letter-spacing: 0.06em; }
+  .brand-name{ font-family: 'IBM Plex Mono', monospace; font-weight: 600; font-size: 14px; letter-spacing: 0.05em; }
+  .brand-tag{ font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: var(--accent-warm); letter-spacing: 0.06em; }
 
   nav{ display:flex; gap: 20px; flex-wrap: wrap; }
   nav a{
     font-family:'IBM Plex Mono', monospace;
-    font-size: 11.5px;
+    font-size: 12.5px;
     letter-spacing: 0.06em;
     text-decoration:none;
     color: var(--muted);
@@ -214,7 +215,7 @@ try {
   .dim-divider .label{
     padding: 0 14px;
     font-family:'IBM Plex Mono', monospace;
-    font-size: 11px;
+    font-size: 12px;
     letter-spacing: 0.12em;
     text-transform: uppercase;
     color: var(--muted);
@@ -236,15 +237,15 @@ try {
     display:flex; justify-content: space-between; align-items: baseline;
     padding: 10px 16px; border-bottom: 1px solid var(--line); background: var(--panel);
   }
-  .title-block .tb-head span{ font-family:'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); }
+  .title-block .tb-head span{ font-family:'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); }
   .tb-row{ display: grid; grid-template-columns: 130px 1fr; border-bottom: 1px solid var(--line); }
   .tb-row:last-child{ border-bottom: none; }
   .tb-row dt{
-    margin:0; font-family:'IBM Plex Mono', monospace; font-size: 10.5px; letter-spacing: 0.08em;
+    margin:0; font-family:'IBM Plex Mono', monospace; font-size: 11.5px; letter-spacing: 0.08em;
     text-transform: uppercase; color: var(--muted); padding: 10px 14px; border-right: 1px solid var(--line);
     display:flex; align-items:center;
   }
-  .tb-row dd{ margin:0; font-size: 13.5px; color: var(--ink); padding: 10px 14px; display:flex; align-items:center; }
+  .tb-row dd{ margin:0; font-size: 14.5px; color: var(--ink); padding: 10px 14px; display:flex; align-items:center; }
   .tb-row dd .accent{ color: var(--accent-warm); font-family:'IBM Plex Mono', monospace; font-weight: 600; }
 
   /* ===== Fact tiles ===== */
@@ -254,8 +255,8 @@ try {
   .cap-tile{ background: var(--panel); padding: 22px 20px; display:flex; flex-direction: column; gap: 9px; text-decoration: none; color: var(--ink); transition: background .15s ease; }
   .cap-tile:hover{ background: var(--panel-hover); }
   /* Single reusable tag style, used by every card type so color never drifts between sections again */
-  .tag{ font-family:'IBM Plex Mono', monospace; font-size: 10.5px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--accent); }
-  .cap-tile p{ margin:0; font-size: 13.5px; color: var(--muted); }
+  .tag{ font-family:'IBM Plex Mono', monospace; font-size: 11.5px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--accent); }
+  .cap-tile p{ margin:0; font-size: 14.5px; color: var(--muted); }
 
   /* ===== Featured project ===== */
   .feature{
@@ -265,10 +266,10 @@ try {
   }
   .feature:hover{ background: var(--panel-hover); }
   .feature-left{ display:flex; flex-direction:column; gap:4px; }
-  .feature-title{ font-family: 'Fraunces', serif; font-size: 19px; font-weight: 600; }
-  .feature p{ margin: 2px 0 0; font-size: 13px; color: var(--muted); max-width: 46ch; }
+  .feature-title{ font-family: 'Fraunces', serif; font-size: 20px; font-weight: 600; }
+  .feature p{ margin: 2px 0 0; font-size: 14px; color: var(--muted); max-width: 46ch; }
   /* Single reusable "go" link style, used by every card type so it never drifts apart again */
-  .go{ margin-top: auto; font-family:'IBM Plex Mono', monospace; font-size: 12px; color: var(--accent); white-space: nowrap; transition: transform .15s ease; }
+  .go{ margin-top: auto; font-family:'IBM Plex Mono', monospace; font-size: 13px; color: var(--accent); white-space: nowrap; transition: transform .15s ease; }
   .channel:hover .go, .feature:hover .go, .lab-tile:hover .go, .cap-tile:hover .go{ transform: translateX(3px); }
   .channel.disabled .go{ color: var(--muted); }
   .channel.disabled:hover .go{ transform: none; }
@@ -280,8 +281,8 @@ try {
     display:flex; flex-direction: column; gap: 8px; transition: background .15s ease;
   }
   .lab-tile:hover{ background: var(--panel-hover); }
-  .lab-tile h4{ font-family: 'Fraunces', serif; font-size: 15px; margin: 0; font-weight: 600; }
-  .lab-tile p{ margin: 0; font-size: 12.5px; color: var(--muted); }
+  .lab-tile h4{ font-family: 'Fraunces', serif; font-size: 16px; margin: 0; font-weight: 600; }
+  .lab-tile p{ margin: 0; font-size: 13.5px; color: var(--muted); }
 
   /* ===== FAQ ===== */
   /* ===== Channels ===== */
@@ -299,14 +300,14 @@ try {
   .channel-top{ display:flex; align-items:center; justify-content: space-between; }
 
   .stamp{
-    display:inline-block; font-family:'IBM Plex Mono', monospace; font-size: 9.5px; letter-spacing: 0.08em;
+    display:inline-block; font-family:'IBM Plex Mono', monospace; font-size: 10.5px; letter-spacing: 0.08em;
     text-transform: uppercase; padding: 3px 9px; border: 1.5px solid var(--accent-warm); color: var(--accent-warm);
     transform: rotate(-2.5deg);
   }
   .stamp.pending{ border-style: dashed; border-color: var(--muted); color: var(--muted); transform: rotate(-1.5deg); }
 
-  .channel h3{ font-family: 'Fraunces', serif; font-size: 17px; margin: 0; font-weight: 600; }
-  .channel p{ margin: 0; font-size: 13.5px; color: var(--muted); max-width: 44ch; }
+  .channel h3{ font-family: 'Fraunces', serif; font-size: 18px; margin: 0; font-weight: 600; }
+  .channel p{ margin: 0; font-size: 14.5px; color: var(--muted); max-width: 44ch; }
   .embed-frame{ border: 1px solid var(--line); background: var(--bg); padding: 4px; }
   .embed-frame iframe{ display: block; width: 100%; }
 
@@ -314,7 +315,7 @@ try {
   .post-link{ display: flex; flex-direction: column; gap: 8px; text-decoration: none; }
   .post-thumb{ width: 100%; aspect-ratio: 16 / 9; background-color: var(--bg); background-size: cover; background-position: center; border: 1px solid var(--line); transition: border-color .15s ease; }
   .post-text{
-    font-family:'IBM Plex Mono', monospace; font-size: 11.5px; line-height: 1.45; color: var(--muted);
+    font-family:'IBM Plex Mono', monospace; font-size: 12.5px; line-height: 1.45; color: var(--muted);
     display: -webkit-box; -webkit-line-clamp: 3; line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden;
     transition: color .15s ease;
   }
@@ -325,7 +326,7 @@ try {
   .utility{ padding: 46px 0 24px; }
   .util-links{ display:flex; flex-wrap: wrap; gap: 10px; }
   .util-links a{
-    font-family:'IBM Plex Mono', monospace; font-size: 12.5px; text-decoration:none; color: var(--ink);
+    font-family:'IBM Plex Mono', monospace; font-size: 13.5px; text-decoration:none; color: var(--ink);
     background: var(--panel); border: 1px solid var(--line); padding: 10px 16px; display:flex; align-items:center; gap: 8px;
     transition: border-color .15s ease, color .15s ease;
   }
@@ -336,7 +337,7 @@ try {
   footer{ border-top: 1px solid var(--line); padding: 26px 0 46px; display:flex; flex-direction: column; gap: 22px; }
   .subscribe-box{ max-width: 420px; }
   .foot-row{ display:flex; justify-content: space-between; align-items:flex-end; flex-wrap: wrap; gap: 16px; }
-  footer .mono{ font-size: 11px; color: var(--muted); letter-spacing: 0.04em; }
+  footer .mono{ font-size: 12px; color: var(--muted); letter-spacing: 0.04em; }
 
   @media (max-width: 660px){ header{ padding: 18px 24px; } }
 </style>
@@ -374,7 +375,7 @@ try {
         <div class="tb-row"><dt>Rol</dt><dd>Automation engineer</dd></div>
         <div class="tb-row"><dt>Origine</dt><dd>Electrician, inginerie electrică, automatizări industriale</dd></div>
         <div class="tb-row"><dt>Stack</dt><dd>Linux · self-hosted · homelab · LLM local · Majordom</dd></div>
-        <div class="tb-row"><dt>Focus</dt><dd>Suveranitate digitală, aplicată</dd></div>
+        <div class="tb-row"><dt>Focus</dt><dd>Suveranitate digitală</dd></div>
         <div class="tb-row"><dt>Motto</dt><dd><span class="accent">#DEPPSiT</span> · Dacă eu pot, poți și tu</dd></div>
         <div class="tb-row"><dt>Actualizat</dt><dd>2026</dd></div>
         </dl>
@@ -409,8 +410,7 @@ try {
     <a href="https://github.com/Dorusto/life-os" class="feature reveal" target="_blank" rel="noopener">
       <div class="feature-left">
         <div class="channel-top"><span class="stamp pending">În lucru</span></div>
-        <span class="tag">Asistent AI / Majordom</span>
-        <span class="feature-title">Majordom</span>
+        <span class="feature-title">Asistent AI / Majordom</span>
         <p>Construiesc stratul conversațional AI local peste sistemele mele.</p>
       </div>
       <span class="go">Vezi pe GitHub →</span>
@@ -419,15 +419,13 @@ try {
     <div class="lab-grid">
       <a href="https://www.etsy.com/shop/DEPPSiTStore" class="lab-tile reveal" target="_blank" rel="noopener">
         <div class="channel-top"><span class="stamp">Activ</span></div>
-        <span class="tag">Side project</span>
-        <h4>AI T-Shirt Studio</h4>
+        <h4>AI T-Shirt Studio / Side Project</h4>
         <p>Portrete AI personalizate, generate cu ComfyUI + PuLID Flux. Susține ce fac cumpărând un tricou personalizat de pe DEPPSiTStore.</p>
         <span class="go">Vezi DEPPSiTStore →</span>
       </a>
       <a href="https://github.com/Dorusto/yt-pipeline" class="lab-tile reveal" target="_blank" rel="noopener">
         <div class="channel-top"><span class="stamp pending">În lucru</span></div>
-        <span class="tag">Automatizare / yt-pipeline</span>
-        <h4>yt-pipeline</h4>
+        <h4>Automatizare / yt-pipeline</h4>
         <p>Asistentul meu care mă ajută cu transcrieri, traduceri, generare Shorts.</p>
         <span class="go">Vezi pe GitHub →</span>
       </a>
@@ -441,8 +439,7 @@ try {
 
       <div class="channel reveal">
         <div class="channel-top"><span class="stamp">Activ</span></div>
-        <span class="tag">Video / YouTube</span>
-        <h3>YouTube</h3>
+        <h3>Video / YouTube</h3>
         {latestYouTube && (
           <ul class="latest-posts">
             <li>
@@ -458,8 +455,7 @@ try {
 
       <div class="channel reveal">
         <div class="channel-top"><span class="stamp">Activ</span></div>
-        <span class="tag">Poze / Pixelfed</span>
-        <h3>Poze</h3>
+        <h3>Poze / Pixelfed</h3>
         {latestPixelfed && (
           <ul class="latest-posts">
             <li>
@@ -474,8 +470,7 @@ try {
 
       <div class="channel reveal">
         <div class="channel-top"><span class="stamp">Activ</span></div>
-        <span class="tag">Din culise</span>
-        <h3>Articole</h3>
+        <h3>Articole / Din culise</h3>
         {latestPost && (
           <ul class="latest-posts">
             <li>
@@ -491,24 +486,21 @@ try {
 
       <div class="channel reveal">
         <div class="channel-top"><span class="stamp">Activ</span></div>
-        <span class="tag">Microblog / Mastodon</span>
-        <h3>Semnal</h3>
+        <h3>Semnal / Mastodon</h3>
         <ul class="latest-posts" data-mastodon-latest></ul>
         <a class="go" href="https://mastodon.social/@dorulian" target="_blank" rel="noopener">Urmărește pe Mastodon →</a>
       </div>
 
       <a href="https://t.me/viatacudoru" class="channel reveal" target="_blank" rel="noopener">
         <div class="channel-top"><span class="stamp">Activ</span></div>
-        <span class="tag">Chat direct / Telegram</span>
-        <h3>Cafeneaua lui Doru</h3>
+        <h3>Cafeneaua lui Doru / Telegram</h3>
         <p>Locul unde poți vorbi direct cu mine: întrebări, idei, feedback.</p>
         <span class="go">Intră în chat →</span>
       </a>
 
       <div class="channel disabled reveal" aria-disabled="true">
         <div class="channel-top"><span class="stamp pending">În lucru</span></div>
-        <span class="tag">Video / PeerTube</span>
-        <h3>Arhivă</h3>
+        <h3>Arhivă / PeerTube</h3>
         <p>Arhivă video self-hosted pe NAS propriu, în lucru.</p>
         <span class="go">Urmează</span>
       </div>
@@ -519,7 +511,7 @@ try {
   <section class="utility reveal" id="contact">
     <div class="dim-divider reveal"><span class="tick"></span><span class="line"></span><span class="label">Contact</span><span class="line"></span><span class="tick"></span></div>
     <div class="util-links">
-      <a href="mailto:dorulian.work@gmail.com">Scrie-mi: dorulian.work@gmail.com</a>
+      <a href="mailto:dorulian.work@gmail.com">dorulian.work@gmail.com</a>
       <a href="https://github.com/Dorusto" target="_blank" rel="noopener">GitHub</a>
       <a href="https://cal.com/dorulian" target="_blank" rel="noopener" class="highlight">Rezervă consultanță 1-la-1</a>
       <a href="https://ko-fi.com/dorulian" target="_blank" rel="noopener">Susține-mă pe Ko-fi</a>
