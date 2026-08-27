@@ -1,0 +1,30 @@
+# Doru Stoica
+
+> Automation engineer (electrician, inginerie electrică, automatizări industriale PLC/SCADA). Construiește #DEPPSiT: self-hosting, homelab, AI local, aplicate — nu doar explicate. Motto: "Dacă eu pot, poți și tu."
+
+## Servicii
+
+- [Self-hosting](https://cal.com/dorulian): Docker, Proxmox, NAS. Control absolut, privat și independent.
+- [AI local](https://cal.com/dorulian): Ollama pentru LLM, ComfyUI pentru imagine, fără costuri per token.
+- [Livrare / consultanță 1-la-1](https://cal.com/dorulian): diagnostic, un pas concret înainte.
+
+## Laborator (proiecte)
+
+- [Majordom](https://github.com/Dorusto/life-os): strat conversațional AI local peste sistemele proprii. În lucru.
+- [AI T-Shirt Studio](https://www.etsy.com/shop/DEPPSiTStore): portrete AI personalizate, generate cu ComfyUI + PuLID Flux, tricou personalizat pe comandă.
+- [yt-pipeline](https://github.com/Dorusto/yt-pipeline): automatizarea montajului video (transcrieri, traduceri, generare Shorts).
+
+## Canale
+
+- [YouTube](https://www.youtube.com/@dorulian): video, timelapse astro, conținut #DEPPSiT.
+- [Pixelfed](https://pixelfed.social/dorulians): poze.
+- [Mastodon](https://mastodon.social/@dorulian): microblog.
+- [Telegram](https://t.me/viatacudoru): chat direct.
+- [Substack](https://dorulian.substack.com): articole, newsletter din culise.
+
+## Contact
+
+- Email: dorulian.work@gmail.com
+- [GitHub](https://github.com/Dorusto)
+- [Rezervă consultanță](https://cal.com/dorulian)
+- [Ko-fi](https://ko-fi.com/dorulian)
