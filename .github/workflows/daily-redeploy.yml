@@ -1,0 +1,27 @@
+name: Daily redeploy
+
+# The channel previews (YouTube, Pixelfed, Substack) are fetched at build
+# time, not live in the browser — so the site only shows fresh content
+# after a new deploy. This job pushes an empty commit once a day so the
+# connected auto-deploy picks it up and rebuilds, without needing a real
+# content change first.
+
+on:
+  schedule:
+    - cron: '0 5 * * *' # 05:00 UTC daily
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+
+jobs:
+  redeploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Push empty commit to trigger a rebuild
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git commit --allow-empty -m "chore: daily rebuild to refresh channel previews"
+          git push
