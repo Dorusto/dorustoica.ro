@@ -1,134 +1,625 @@
 ---
 import '../styles/global.css';
+
+let latestPost: { title: string; link: string; image?: string } | null = null;
+try {
+  const res = await fetch('https://dorulian.substack.com/feed');
+  const xml = await res.text();
+  const firstItem = xml.match(/<item>([\s\S]*?)<\/item>/)?.[1];
+  if (firstItem) {
+    const title = firstItem.match(/<title><!\[CDATA\[(.*?)\]\]><\/title>/)?.[1];
+    const link = firstItem.match(/<link>(.*?)<\/link>/)?.[1];
+    const image = firstItem.match(/<enclosure url="([^"]+)"/)?.[1];
+    if (title && link) latestPost = { title, link, image };
+  }
+} catch (e) {
+  // Build shouldn't fail just because Substack is briefly unreachable.
+}
+
+let latestYouTube: { title: string; link: string; image?: string } | null = null;
+try {
+  const res = await fetch('https://www.youtube.com/feeds/videos.xml?channel_id=UCWinPMNiK6ExhVjm0Ighiew');
+  const xml = await res.text();
+  const firstEntry = xml.match(/<entry>([\s\S]*?)<\/entry>/)?.[1];
+  if (firstEntry) {
+    const title = firstEntry.match(/<title>(.*?)<\/title>/)?.[1];
+    const link = firstEntry.match(/<link rel="alternate" href="([^"]+)"/)?.[1];
+    const image = firstEntry.match(/<media:thumbnail url="([^"]+)"/)?.[1];
+    if (title && link) latestYouTube = { title, link, image };
+  }
+} catch (e) {
+  // Build shouldn't fail just because YouTube is briefly unreachable.
+}
+
+let latestPixelfed: { link: string; image?: string } | null = null;
+try {
+  const res = await fetch('https://pixelfed.social/users/dorulians.atom');
+  const xml = await res.text();
+  const firstEntry = xml.match(/<entry>([\s\S]*?)<\/entry>/)?.[1];
+  if (firstEntry) {
+    const link = firstEntry.match(/<link rel="alternate" href="([^"]+)"/)?.[1];
+    const image = firstEntry.match(/<media:content\s+url="([^"]+)"/)?.[1];
+    if (link) latestPixelfed = { link, image };
+  }
+} catch (e) {
+  // Build shouldn't fail just because Pixelfed is briefly unreachable.
+}
 ---
 
 <!doctype html>
 <html lang="ro">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Doru Stoica — #DEPPSiT</title>
-  <meta name="description" content="Creator de conținut despre suveranitate digitală, self-hosting și AI local. Dacă eu pot, poți și tu." />
-  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-  <script defer src="https://cloud.umami.is/script.js" data-website-id="977ce415-76bd-465e-8dfb-f627cf92f951"></script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Doru Stoica · #DEPPSiT</title>
+<meta name="description" content="Doru Stoica, software engineer. Automatizări industriale (PLC/SCADA), self-hosting și AI local. #DEPPSiT: dacă eu pot, poți și tu.">
+<link rel="canonical" href="https://dorustoica.ro">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://dorustoica.ro">
+<meta property="og:title" content="Doru Stoica · #DEPPSiT">
+<meta property="og:description" content="Software engineer, automatizări industriale (PLC/SCADA), self-hosting și AI local. Dacă eu pot, poți și tu.">
+<meta property="og:image" content="https://dorustoica.ro/doru.webp">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Doru Stoica · #DEPPSiT">
+<meta name="twitter:description" content="Software engineer, automatizări industriale (PLC/SCADA), self-hosting și AI local. Dacă eu pot, poți și tu.">
+<meta name="twitter:image" content="https://dorustoica.ro/doru.webp">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600&family=IBM+Plex+Mono:wght@400;600&family=IBM+Plex+Sans:wght@400&display=swap" rel="stylesheet">
+<script defer src="https://cloud.umami.is/script.js" data-website-id="977ce415-76bd-465e-8dfb-f627cf92f951"></script>
+<script type="application/ld+json" is:inline>
+{
+  "@context": "https://schema.org",
+  "@type": "Person",
+  "name": "Doru Stoica",
+  "url": "https://dorustoica.ro",
+  "jobTitle": "Software Engineer",
+  "description": "Software engineer cu fundal în automatizări industriale (PLC/SCADA). Construiește Majordom, un strat conversațional AI self-hosted, și scrie despre self-hosting, homelab și AI local sub brandul #DEPPSiT.",
+  "knowsAbout": ["Self-hosting", "Homelab", "AI local", "Automatizări industriale", "PLC", "SCADA"],
+  "sameAs": [
+    "https://www.youtube.com/@dorulian",
+    "https://dorulian.substack.com",
+    "https://pixelfed.social/dorulians",
+    "https://mastodon.social/@dorulian",
+    "https://github.com/Dorusto"
+  ]
+}
+</script>
+<script type="application/ld+json" is:inline>
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Ce înseamnă #DEPPSiT?",
+      "acceptedAnswer": { "@type": "Answer", "text": "„Dacă eu pot, poți și tu.” Motto-ul din spatele conținutului despre self-hosting, homelab și AI local." }
+    },
+    {
+      "@type": "Question",
+      "name": "Ești programator?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Nu de profesie inițială. Sunt software engineer care citește și modifică cod, dar orchestrez AI ca partener de lucru." }
+    },
+    {
+      "@type": "Question",
+      "name": "Faci consultanță tehnică 1-la-1?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Da. Self-hosting, AI local, automatizare personală. O oră, ceva funcțional la final. Se rezervă direct din secțiunea Contact, mai jos." }
+    },
+    {
+      "@type": "Question",
+      "name": "De unde vin cunoștințele tehnice?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Din electrician, inginerie electrică și automatizări industriale (PLC/SCADA), plus construirea propriilor sisteme self-hosted, documentată public." }
+    }
+  ]
+}
+</script>
+<style is:global>
+  :root{
+    --bg: #10141A;
+    --panel: #171D25;
+    --panel-hover: #1C232D;
+    --ink: #E7EBEF;
+    --muted: #8A97A6;
+    --line: #2A323D;
+    --accent: #5FD3C4;
+    --accent-warm: #E8A33D;
+  }
+
+  *{ box-sizing: border-box; }
+  html{ scroll-behavior: smooth; }
+
+  body{
+    margin:0;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: 'IBM Plex Sans', sans-serif;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  a{ color: inherit; }
+  .mono{ font-family: 'IBM Plex Mono', monospace; }
+  ::selection{ background: var(--accent); color: #17130F; }
+
+  a:focus-visible, button:focus-visible{
+    outline: 2px solid var(--accent);
+    outline-offset: 3px;
+  }
+
+  .grid-bg{
+    position: fixed;
+    inset: -60px 0 0 0;
+    z-index: -2;
+    background-image:
+      linear-gradient(var(--line) 1px, transparent 1px),
+      linear-gradient(90deg, var(--line) 1px, transparent 1px);
+    background-size: 40px 40px;
+    opacity: 0.16;
+    mask-image: radial-gradient(ellipse 80% 55% at 50% 0%, black 35%, transparent 88%);
+    transition: transform .1s linear;
+    will-change: transform;
+  }
+
+  /* Film-grain texture — the creative counterweight to the drafting grid */
+  .grain{
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    opacity: .05;
+    pointer-events: none;
+    mix-blend-mode: overlay;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+
+  header{
+    position: sticky;
+    top: 0;
+    z-index: 20;
+    display:flex;
+    align-items:center;
+    justify-content: space-between;
+    max-width: 940px;
+    margin: 0 auto;
+    padding: 22px 24px;
+    gap: 16px;
+    flex-wrap: wrap;
+    background: color-mix(in srgb, var(--bg) 62%, transparent);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--line);
+  }
+
+  .brand{ display:flex; align-items:center; gap: 12px; text-decoration: none; color: var(--ink); }
+  .brand-text{ display:flex; flex-direction:column; line-height:1.25; }
+  .brand-name{ font-family: 'IBM Plex Mono', monospace; font-weight: 600; font-size: 13px; letter-spacing: 0.05em; }
+  .brand-tag{ font-family: 'IBM Plex Mono', monospace; font-size: 10px; color: var(--accent-warm); letter-spacing: 0.06em; }
+
+  nav{ display:flex; gap: 20px; flex-wrap: wrap; }
+  nav a{
+    font-family:'IBM Plex Mono', monospace;
+    font-size: 11.5px;
+    letter-spacing: 0.06em;
+    text-decoration:none;
+    color: var(--muted);
+    text-transform: uppercase;
+    transition: color .15s ease;
+  }
+  nav a:hover{ color: var(--accent); }
+
+  main{ max-width: 940px; margin: 0 auto; padding: 0 24px; }
+
+  .dim-divider{ display:flex; align-items:center; margin: 0 0 26px; }
+  .dim-divider .tick{ width:1px; height:9px; background: var(--line); flex-shrink:0; }
+  .dim-divider .line{ flex:1; height:1px; background: var(--line); }
+  .dim-divider .label{
+    padding: 0 14px;
+    font-family:'IBM Plex Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+    white-space: nowrap;
+  }
+
+  .reveal{ opacity: 0; transform: translateY(14px); transition: opacity .55s ease, transform .55s ease; }
+  .reveal.is-visible{ opacity: 1; transform: translateY(0); }
+  @media (prefers-reduced-motion: reduce){ .reveal{ opacity:1; transform:none; transition:none; } }
+
+  /* ===== Hero ===== */
+  .hero{ padding: 48px 0 44px; }
+
+  .hero-row{ display:flex; gap: 28px; align-items: flex-start; flex-wrap: wrap; }
+  .hero-portrait{ width: 220px; aspect-ratio: 1 / 1; object-fit: cover; border: 1px solid var(--line); background: var(--bg); flex-shrink: 0; }
+  .title-block{ border: 1px solid var(--line); max-width: 640px; flex: 1 1 480px; background: color-mix(in srgb, var(--panel) 55%, transparent); }
+  .title-block dl{ margin: 0; }
+  .title-block .tb-head{
+    display:flex; justify-content: space-between; align-items: baseline;
+    padding: 10px 16px; border-bottom: 1px solid var(--line); background: var(--panel);
+  }
+  .title-block .tb-head span{ font-family:'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); }
+  .tb-row{ display: grid; grid-template-columns: 130px 1fr; border-bottom: 1px solid var(--line); }
+  .tb-row:last-child{ border-bottom: none; }
+  .tb-row dt{
+    margin:0; font-family:'IBM Plex Mono', monospace; font-size: 10.5px; letter-spacing: 0.08em;
+    text-transform: uppercase; color: var(--muted); padding: 10px 14px; border-right: 1px solid var(--line);
+    display:flex; align-items:center;
+  }
+  .tb-row dd{ margin:0; font-size: 13.5px; color: var(--ink); padding: 10px 14px; display:flex; align-items:center; }
+  .tb-row dd .accent{ color: var(--accent-warm); font-family:'IBM Plex Mono', monospace; font-weight: 600; }
+
+  /* ===== Fact tiles ===== */
+  .capabilities{ padding: 46px 0 6px; }
+  .cap-grid{ display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: var(--line); border: 1px solid var(--line); }
+  @media (max-width: 660px){ .cap-grid{ grid-template-columns: 1fr; } }
+  .cap-tile{ background: var(--panel); padding: 22px 20px; display:flex; flex-direction: column; gap: 9px; text-decoration: none; color: var(--ink); transition: background .15s ease; }
+  .cap-tile:hover{ background: var(--panel-hover); }
+  /* Single reusable tag style, used by every card type so color never drifts between sections again */
+  .tag{ font-family:'IBM Plex Mono', monospace; font-size: 10.5px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--accent); }
+  .cap-tile p{ margin:0; font-size: 13.5px; color: var(--muted); }
+
+  /* ===== Featured project ===== */
+  .feature{
+    padding: 22px 24px; border: 1px solid var(--line); display:flex; align-items:center; justify-content: space-between;
+    gap: 16px; flex-wrap: wrap; text-decoration:none; color: var(--ink); background: var(--panel);
+    transition: background .15s ease, border-color .15s ease;
+  }
+  .feature:hover{ background: var(--panel-hover); }
+  .feature-left{ display:flex; flex-direction:column; gap:4px; }
+  .feature-title{ font-family: 'Fraunces', serif; font-size: 19px; font-weight: 600; }
+  .feature p{ margin: 2px 0 0; font-size: 13px; color: var(--muted); max-width: 46ch; }
+  /* Single reusable "go" link style, used by every card type so it never drifts apart again */
+  .go{ margin-top: auto; font-family:'IBM Plex Mono', monospace; font-size: 12px; color: var(--accent); white-space: nowrap; transition: transform .15s ease; }
+  .channel:hover .go, .feature:hover .go, .lab-tile:hover .go, .cap-tile:hover .go{ transform: translateX(3px); }
+  .channel.disabled .go{ color: var(--muted); }
+  .channel.disabled:hover .go{ transform: none; }
+  .majordom-section{ padding: 46px 0 6px; }
+  .lab-grid{ display: grid; grid-template-columns: 1fr 1fr; gap: 1px; background: var(--line); border: 1px solid var(--line); margin-top: 1px; }
+  @media (max-width: 660px){ .lab-grid{ grid-template-columns: 1fr; } }
+  .lab-tile{
+    background: var(--panel); padding: 20px 20px; text-decoration: none; color: var(--ink);
+    display:flex; flex-direction: column; gap: 8px; transition: background .15s ease;
+  }
+  .lab-tile:hover{ background: var(--panel-hover); }
+  .lab-tile h4{ font-family: 'Fraunces', serif; font-size: 15px; margin: 0; font-weight: 600; }
+  .lab-tile p{ margin: 0; font-size: 12.5px; color: var(--muted); }
+
+  /* ===== FAQ ===== */
+  .faq{ padding: 46px 0 6px; }
+  .faq-list{ border-top: 1px solid var(--line); }
+  .faq-item{ padding: 18px 0; border-bottom: 1px solid var(--line); }
+  .faq-item .q{ margin: 0 0 8px; font-family:'IBM Plex Mono', monospace; font-size: 13.5px; font-weight: 600; display:flex; gap: 10px; }
+  .faq-item .q .qmark{ color: var(--accent); }
+  .faq-item .a{ margin: 0; padding-left: 24px; font-size: 13.5px; color: var(--muted); max-width: 62ch; }
+
+  /* ===== Channels ===== */
+  .board{ padding: 46px 0 16px; }
+  .channels{ display: grid; grid-template-columns: 1fr 1fr; gap: 1px; background: var(--line); border: 1px solid var(--line); }
+  @media (max-width: 660px){ .channels{ grid-template-columns: 1fr; } }
+  .channel.span2{ grid-column: span 2; }
+  @media (max-width: 660px){ .channel.span2{ grid-column: span 1; } }
+
+  .channel{ background: var(--panel); padding: 24px 22px; text-decoration: none; color: var(--ink); display:flex; flex-direction: column; gap: 11px; transition: background .15s ease; }
+  .channel:hover{ background: var(--panel-hover); }
+  .channel.disabled{ cursor: default; }
+  .channel.disabled:hover{ background: var(--panel); }
+
+  .channel-top{ display:flex; align-items:center; justify-content: space-between; }
+
+  .stamp{
+    display:inline-block; font-family:'IBM Plex Mono', monospace; font-size: 9.5px; letter-spacing: 0.08em;
+    text-transform: uppercase; padding: 3px 9px; border: 1.5px solid var(--accent-warm); color: var(--accent-warm);
+    transform: rotate(-2.5deg);
+  }
+  .stamp.pending{ border-style: dashed; border-color: var(--muted); color: var(--muted); transform: rotate(-1.5deg); }
+
+  .channel h3{ font-family: 'Fraunces', serif; font-size: 17px; margin: 0; font-weight: 600; }
+  .channel p{ margin: 0; font-size: 13.5px; color: var(--muted); max-width: 44ch; }
+  .embed-frame{ border: 1px solid var(--line); background: var(--bg); padding: 4px; }
+  .embed-frame iframe{ display: block; width: 100%; }
+
+  .latest-posts{ list-style: none; margin: 6px 0 4px; padding: 0; }
+  .post-link{ display: flex; flex-direction: column; gap: 8px; text-decoration: none; }
+  .post-thumb{ width: 100%; aspect-ratio: 16 / 9; background-color: var(--bg); background-size: cover; background-position: center; border: 1px solid var(--line); transition: border-color .15s ease; }
+  .post-text{
+    font-family:'IBM Plex Mono', monospace; font-size: 11.5px; line-height: 1.45; color: var(--muted);
+    display: -webkit-box; -webkit-line-clamp: 3; line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden;
+    transition: color .15s ease;
+  }
+  .post-link:hover .post-text{ color: var(--accent-warm); }
+  .post-link:hover .post-thumb{ border-color: var(--accent-warm); }
+
+  /* ===== Contact ===== */
+  .utility{ padding: 46px 0 24px; }
+  .util-links{ display:flex; flex-wrap: wrap; gap: 10px; }
+  .util-links a{
+    font-family:'IBM Plex Mono', monospace; font-size: 12.5px; text-decoration:none; color: var(--ink);
+    background: var(--panel); border: 1px solid var(--line); padding: 10px 16px; display:flex; align-items:center; gap: 8px;
+    transition: border-color .15s ease, color .15s ease;
+  }
+  .util-links a:hover{ border-color: var(--accent); color: var(--accent); }
+  .util-links a.highlight{ border-color: var(--accent); color: var(--accent); }
+  .util-links a.highlight:hover{ background: var(--panel-hover); }
+
+  footer{ border-top: 1px solid var(--line); padding: 26px 0 46px; display:flex; flex-direction: column; gap: 22px; }
+  .subscribe-box{ max-width: 420px; }
+  .foot-row{ display:flex; justify-content: space-between; align-items:flex-end; flex-wrap: wrap; gap: 16px; }
+  footer .mono{ font-size: 11px; color: var(--muted); letter-spacing: 0.04em; }
+
+  @media (max-width: 660px){ header{ padding: 18px 24px; } }
+</style>
 </head>
-<body class="bg-[#0a0a0f] text-white min-h-screen flex flex-col items-center justify-center px-6 py-16 font-sans">
+<body>
 
-  <main class="w-full max-w-2xl flex flex-col items-center text-center gap-8">
+<div class="grid-bg" id="gridBg"></div>
+<div class="grain"></div>
 
-    <!-- Avatar -->
-    <img
-      src="/doru.webp"
-      alt="Doru Stoica"
-      width="128"
-      height="128"
-      class="w-32 h-32 rounded-full object-cover object-top shadow-lg shadow-emerald-500/20 border-2 border-emerald-500/30"
-    />
+<header>
+  <a href="#" class="brand">
+    <span class="brand-text">
+      <span class="brand-name">DORU STOICA</span>
+      <span class="brand-tag">#DEPPSiT</span>
+    </span>
+  </a>
+  <nav>
+    <a href="#servicii">Servicii</a>
+    <a href="#laborator">Laborator</a>
+    <a href="#canale">Canale</a>
+    <a href="#faq">Întrebări</a>
+    <a href="#contact">Contact</a>
+  </nav>
+</header>
 
-    <!-- Nume + tagline -->
-    <div class="flex flex-col gap-2">
-      <h1 class="text-4xl font-bold tracking-tight">Doru Stoica</h1>
-      <p class="text-emerald-400 font-medium tracking-wide text-sm uppercase">#DEPPSiT — Dacă eu pot, poți și tu</p>
+<main>
+
+  <section class="hero">
+    <div class="dim-divider reveal"><span class="tick"></span><span class="line"></span><span class="label">Identitate</span><span class="line"></span><span class="tick"></span></div>
+
+    <div class="hero-row">
+      <div class="title-block reveal" aria-label="Fișă de identitate">
+        <div class="tb-head"><span>Fișă tehnică</span><span>#DEPPSiT</span></div>
+        <dl>
+        <div class="tb-row"><dt>Nume</dt><dd>Doru Stoica</dd></div>
+        <div class="tb-row"><dt>Rol</dt><dd>Software engineer</dd></div>
+        <div class="tb-row"><dt>Origine</dt><dd>Electrician, inginerie electrică, automatizări industriale</dd></div>
+        <div class="tb-row"><dt>Stack</dt><dd>Linux · self-hosted · homelab · LLM local · Majordom</dd></div>
+        <div class="tb-row"><dt>Focus</dt><dd>Suveranitate digitală, aplicată, nu doar explicată</dd></div>
+        <div class="tb-row"><dt>Motto</dt><dd><span class="accent">#DEPPSiT</span> · Dacă eu pot, poți și tu</dd></div>
+        <div class="tb-row"><dt>Actualizat</dt><dd>2026</dd></div>
+        </dl>
+      </div>
+      <img class="hero-portrait reveal" src="/doru-portret-2-cutout.png" alt="Doru Stoica" width="220" height="220">
     </div>
+  </section>
 
-    <!-- Bio -->
-    <p class="text-gray-400 leading-relaxed">
-      Nu am urmat un drum drept. De la electrician naval la electrical engineer și acum software engineer.
-      Calea a fost plină de obstacole și încercări, dar am învățat să transform fiecare problemă într-o provocare.
-      Cu curiozitate și oameni care m-au susținut, am găsit soluții pentru fiecare.
-    </p>
-    <p class="text-gray-400 leading-relaxed">
-      Iar de la pasiunea pentru fotografie și film am ajuns la creator de conținut.
-    </p>
-
-    <!-- Social links -->
-    <div class="flex flex-wrap gap-3 justify-center">
-      <a href="https://www.youtube.com/@dorulian" target="_blank" rel="noopener noreferrer"
-         class="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-white/10 bg-white/5 text-gray-400 hover:text-red-400 hover:border-red-500/30 hover:bg-red-500/10 transition-all duration-300 text-sm font-medium">
-        <svg class="w-4 h-4" viewBox="0 0 24 24" fill="currentColor">
-          <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
-        </svg>
-        YouTube
+  <section class="capabilities" id="servicii">
+    <div class="dim-divider reveal"><span class="tick"></span><span class="line"></span><span class="label">Servicii</span><span class="line"></span><span class="tick"></span></div>
+    <div class="cap-grid">
+      <a href="https://cal.com/dorulian" class="cap-tile reveal" target="_blank" rel="noopener">
+        <span class="tag">Self-hosting</span>
+        <p>Docker, Proxmox, NAS. Totul rulează în casa ta: customizabil, control absolut, privat și independent.</p>
+        <span class="go">Rezervă →</span>
       </a>
-      <a href="https://dorulian.substack.com" target="_blank" rel="noopener noreferrer"
-         class="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-white/10 bg-white/5 text-gray-400 hover:text-orange-400 hover:border-orange-500/30 hover:bg-orange-500/10 transition-all duration-300 text-sm font-medium">
-        <svg class="w-4 h-4" viewBox="0 0 24 24" fill="currentColor">
-          <path d="M22.539 8.242H1.46V5.406h21.08v2.836zM1.46 10.812V24L12 18.11 22.54 24V10.812H1.46zM22.54 0H1.46v2.836h21.08V0z"/>
-        </svg>
-        Substack
+      <a href="https://cal.com/dorulian" class="cap-tile reveal" target="_blank" rel="noopener">
+        <span class="tag">AI local</span>
+        <p>Ollama pentru LLM, ComfyUI pentru imagine. Alegere model, configurare hardware, fără costuri per token.</p>
+        <span class="go">Rezervă →</span>
       </a>
-      <a href="https://github.com/Dorusto" target="_blank" rel="noopener noreferrer"
-         class="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-white/10 bg-white/5 text-gray-400 hover:text-white hover:border-white/30 hover:bg-white/10 transition-all duration-300 text-sm font-medium">
-        <svg class="w-4 h-4" viewBox="0 0 24 24" fill="currentColor">
-          <path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/>
-        </svg>
-        GitHub
-      </a>
-      <a href="https://t.me/viatacudoru" target="_blank" rel="noopener noreferrer"
-         class="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-white/10 bg-white/5 text-gray-400 hover:text-sky-400 hover:border-sky-500/30 hover:bg-sky-500/10 transition-all duration-300 text-sm font-medium">
-        <svg class="w-4 h-4" viewBox="0 0 24 24" fill="currentColor">
-          <path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/>
-        </svg>
-        Telegram
+      <a href="https://cal.com/dorulian" class="cap-tile reveal" target="_blank" rel="noopener">
+        <span class="tag">Livrare</span>
+        <p>Diagnostic, consultanță, un pas concret înainte. Claritate, nu teorie.</p>
+        <span class="go">Rezervă →</span>
       </a>
     </div>
+  </section>
 
-    <!-- Butoane side by side -->
-    <div class="grid grid-cols-2 gap-4 w-full">
+  <section class="majordom-section" id="laborator">
+    <div class="dim-divider reveal"><span class="tick"></span><span class="line"></span><span class="label">Laborator</span><span class="line"></span><span class="tick"></span></div>
+    <a href="https://github.com/Dorusto/life-os" class="feature reveal" target="_blank" rel="noopener">
+      <div class="feature-left">
+        <div class="channel-top"><span class="stamp pending">În lucru</span></div>
+        <span class="tag">Asistent AI / Majordom</span>
+        <span class="feature-title">Majordom</span>
+        <p>Stratul conversațional AI peste sistemele mele. Aici testez, în văzul tuturor, înainte să ajungă pe YouTube.</p>
+      </div>
+      <span class="go">Vezi pe GitHub →</span>
+    </a>
 
-      <!-- Consultanta -->
-      <div class="flex flex-col gap-2">
-        <a
-          href="https://cal.com/dorulian"
-          target="_blank"
-          rel="noopener noreferrer"
-          class="w-full px-5 py-4 rounded-2xl border border-white/10 bg-white/5 hover:bg-white/10 hover:border-white/30 transition-all duration-300 text-left h-full"
-        >
-          <div class="text-gray-300 font-medium text-sm flex items-center gap-2 mb-1">
-            📅 Rezervă o sesiune
-          </div>
-          <div class="text-gray-500 text-xs">Consultanță 1-la-1 de self-hosting, AI local și development cu Claude Code.</div>
-        </a>
+    <div class="lab-grid">
+      <a href="https://www.etsy.com/shop/DEPPSiTStore" class="lab-tile reveal" target="_blank" rel="noopener">
+        <div class="channel-top"><span class="stamp">Activ</span></div>
+        <span class="tag">Side project</span>
+        <h4>AI T-Shirt Studio</h4>
+        <p>Portrete AI pe comandă, tricou personalizat generat cu ComfyUI + PuLID Flux. Comandă manuală, în validare.</p>
+        <span class="go">Vezi DEPPSiTStore →</span>
+      </a>
+      <a href="https://github.com/Dorusto/yt-pipeline" class="lab-tile reveal" target="_blank" rel="noopener">
+        <div class="channel-top"><span class="stamp pending">În lucru</span></div>
+        <span class="tag">Automatizare / yt-pipeline</span>
+        <h4>yt-pipeline</h4>
+        <p>Automatizarea montajului: corectură transcript, traducere, generare Shorts, rough-cut din footage brut.</p>
+        <span class="go">Vezi pe GitHub →</span>
+      </a>
+    </div>
+  </section>
+
+  <section class="board" id="canale">
+    <div class="dim-divider reveal"><span class="tick"></span><span class="line"></span><span class="label">Canale</span><span class="line"></span><span class="tick"></span></div>
+
+    <div class="channels">
+
+      <div class="channel reveal">
+        <div class="channel-top"><span class="stamp">Activ</span></div>
+        <span class="tag">Video / YouTube</span>
+        <h3>YouTube</h3>
+        <p>Homelab, self-hosting și construcția Majordom în format video, cu procesul din spatele fiecărei decizii.</p>
+        {latestYouTube && (
+          <ul class="latest-posts">
+            <li>
+              <a class="post-link" href={latestYouTube.link} target="_blank" rel="noopener">
+                {latestYouTube.image && <span class="post-thumb" style={`background-image:url('${latestYouTube.image}')`}></span>}
+                <span class="post-text">{latestYouTube.title}</span>
+              </a>
+            </li>
+          </ul>
+        )}
+        <a class="go" href="https://www.youtube.com/@dorulian" target="_blank" rel="noopener">Abonează-te →</a>
       </div>
 
-      <!-- Majordom -->
-      <div class="flex flex-col gap-2">
-        <a
-          href="https://majordom.dorustoica.ro"
-          target="_blank"
-          rel="noopener noreferrer"
-          class="w-full px-5 py-4 rounded-2xl border border-emerald-500/30 bg-emerald-500/5 hover:bg-emerald-500/10 hover:border-emerald-500/50 transition-all duration-300 text-left h-full"
-        >
-          <div class="text-emerald-400 font-medium text-sm flex items-center gap-2 mb-1">
-            🏛️ Filozofia Majordom
-          </div>
-          <div class="text-gray-500 text-xs">Asistentul personal care lucrează pentru mine.</div>
-        </a>
+      <div class="channel reveal">
+        <div class="channel-top"><span class="stamp">Activ</span></div>
+        <span class="tag">Poze / Pixelfed</span>
+        <h3>Poze</h3>
+        <p>Jurnalul vizual: hardware, rack-ul din homelab, atelierul și cadre din culise.</p>
+        {latestPixelfed && (
+          <ul class="latest-posts">
+            <li>
+              <a class="post-link" href={latestPixelfed.link} target="_blank" rel="noopener">
+                {latestPixelfed.image && <span class="post-thumb" style={`background-image:url('${latestPixelfed.image}')`}></span>}
+                <span class="post-text">Vezi poza →</span>
+              </a>
+            </li>
+          </ul>
+        )}
+        <a class="go" href="https://pixelfed.social/dorulians" target="_blank" rel="noopener">Urmărește pe Pixelfed →</a>
+      </div>
+
+      <div class="channel reveal">
+        <div class="channel-top"><span class="stamp">Activ</span></div>
+        <span class="tag">Din culise</span>
+        <h3>Articole</h3>
+        <p>Scriu despre self-hosting, AI local și deciziile din spatele proiectelor, nu doar rezultatul final.</p>
+        {latestPost && (
+          <ul class="latest-posts">
+            <li>
+              <a class="post-link" href={latestPost.link} target="_blank" rel="noopener">
+                {latestPost.image && <span class="post-thumb" style={`background-image:url('${latestPost.image}')`}></span>}
+                <span class="post-text">{latestPost.title}</span>
+              </a>
+            </li>
+          </ul>
+        )}
+        <a class="go" href="https://dorulian.substack.com" target="_blank" rel="noopener">Citește pe Substack →</a>
+      </div>
+
+      <div class="channel reveal">
+        <div class="channel-top"><span class="stamp">Activ</span></div>
+        <span class="tag">Microblog / Mastodon</span>
+        <h3>Semnal</h3>
+        <p>Ultima postare, live:</p>
+        <ul class="latest-posts" data-mastodon-latest></ul>
+        <a class="go" href="https://mastodon.social/@dorulian" target="_blank" rel="noopener">Vezi tot pe Mastodon →</a>
+      </div>
+
+      <a href="https://t.me/viatacudoru" class="channel reveal" target="_blank" rel="noopener">
+        <div class="channel-top"><span class="stamp">Activ</span></div>
+        <span class="tag">Chat direct / Telegram</span>
+        <h3>Telegram</h3>
+        <p>Locul unde poți vorbi direct cu mine: întrebări, idei, feedback, fără intermediari.</p>
+        <span class="go">Intră în chat →</span>
+      </a>
+
+      <div class="channel disabled reveal" aria-disabled="true">
+        <div class="channel-top"><span class="stamp pending">În lucru</span></div>
+        <span class="tag">Video lung / PeerTube</span>
+        <h3>Arhivă</h3>
+        <p>Arhivă video self-hosted pe NAS propriu, în lucru.</p>
+        <span class="go">Urmează</span>
       </div>
 
     </div>
+  </section>
 
-    <!-- Substack -->
-    <p class="text-emerald-400 font-medium tracking-wide text-sm">Din culise:</p>
-    <div class="w-full rounded-2xl border border-white/10 bg-white/5 p-2">
-      <iframe
-        src="https://dorulian.substack.com/embed"
-        width="100%"
-        height="160"
-        style="border:none; background:transparent !important;"
-        frameborder="0"
-        scrolling="no"
-        loading="lazy"
-        title="Newsletter din culise"
-      ></iframe>
+  <section class="faq" id="faq">
+    <div class="dim-divider reveal"><span class="tick"></span><span class="line"></span><span class="label">Întrebări</span><span class="line"></span><span class="tick"></span></div>
+    <div class="faq-list">
+      <div class="faq-item reveal">
+        <p class="q"><span class="qmark">Î·</span>Ce înseamnă #DEPPSiT?</p>
+        <p class="a">„Dacă eu pot, poți și tu.” Motto-ul din spatele conținutului despre self-hosting, homelab și AI local.</p>
+      </div>
+      <div class="faq-item reveal">
+        <p class="q"><span class="qmark">Î·</span>Ești programator?</p>
+        <p class="a">Nu de profesie inițială. Sunt software engineer care citește și modifică cod, dar orchestrez AI ca partener de lucru.</p>
+      </div>
+      <div class="faq-item reveal">
+        <p class="q"><span class="qmark">Î·</span>Faci consultanță tehnică 1-la-1?</p>
+        <p class="a">Da. Self-hosting, AI local, automatizare personală. O oră, ceva funcțional la final. Se rezervă direct din secțiunea Contact, mai jos.</p>
+      </div>
+      <div class="faq-item reveal">
+        <p class="q"><span class="qmark">Î·</span>De unde vin cunoștințele tehnice?</p>
+        <p class="a">Din electrician, inginerie electrică și automatizări industriale (PLC/SCADA), plus construirea propriilor sisteme self-hosted, documentată public.</p>
+      </div>
     </div>
+  </section>
 
-  </main>
+  <section class="utility reveal" id="contact">
+    <div class="dim-divider reveal"><span class="tick"></span><span class="line"></span><span class="label">Contact</span><span class="line"></span><span class="tick"></span></div>
+    <div class="util-links">
+      <a href="mailto:dorulian.work@gmail.com">Scrie-mi: dorulian.work@gmail.com</a>
+      <a href="https://github.com/Dorusto" target="_blank" rel="noopener">GitHub</a>
+      <a href="https://cal.com/dorulian" target="_blank" rel="noopener" class="highlight">Rezervă consultanță 1-la-1</a>
+      <a href="https://ko-fi.com/dorulian" target="_blank" rel="noopener">Susține-mă pe Ko-fi</a>
+    </div>
+  </section>
 
-  <footer class="mt-16 text-gray-600 text-xs flex flex-col items-center gap-2">
-    <a href="https://ko-fi.com/dorulian" target="_blank" rel="noopener noreferrer" class="hover:text-gray-400 transition-colors">☕ Susține-mă cu o cafea</a>
-    <span>© 2026 Doru Stoica</span>
+  <footer>
+    <div class="subscribe-box reveal">
+      <div class="embed-frame">
+        <iframe src="https://dorulian.substack.com/embed" width="100%" height="160" style="border:none; background:transparent;" frameborder="0" scrolling="no" loading="lazy" title="Newsletter din culise"></iframe>
+      </div>
+    </div>
+    <div class="foot-row">
+      <span class="mono">© 2026 Doru Stoica</span>
+    </div>
   </footer>
+
+</main>
+
+<script is:inline>
+  const reveals = document.querySelectorAll('.reveal');
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach((entry, i) => {
+      if (entry.isIntersecting){
+        setTimeout(() => entry.target.classList.add('is-visible'), i * 50);
+        io.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.15 });
+  reveals.forEach(el => io.observe(el));
+
+  // Live "latest posts" — only Mastodon's public API is CORS-friendly enough
+  // for a plain static page. YouTube/Pixelfed/Substack need a build-time fetch
+  // or a self-hosted proxy; faking their previews here would just go stale.
+  (async () => {
+    const list = document.querySelector('[data-mastodon-latest]');
+    if (!list) return;
+    try {
+      const account = await fetch('https://mastodon.social/api/v1/accounts/lookup?acct=dorulian').then(r => r.json());
+      const statuses = await fetch(`https://mastodon.social/api/v1/accounts/${account.id}/statuses?limit=1&exclude_replies=true&exclude_reblogs=true`).then(r => r.json());
+      list.innerHTML = statuses.slice(0, 1).map(s => {
+        const text = s.content.replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim();
+        const short = text.length > 200 ? text.slice(0, 200) + '…' : text;
+        const image = (s.media_attachments || []).find(m => m.type === 'image');
+        const thumb = image ? `<span class="post-thumb" style="background-image:url('${image.preview_url}')"></span>` : '';
+        return `<li><a class="post-link" href="${s.url}" target="_blank" rel="noopener">${thumb}<span class="post-text">${short || 'Vezi postarea →'}</span></a></li>`;
+      }).join('');
+    } catch (e){
+      // Silent — the static description above already covers this card.
+    }
+  })();
+
+  const gridBg = document.getElementById('gridBg');
+  let ticking = false;
+  window.addEventListener('scroll', () => {
+    if (!ticking){
+      requestAnimationFrame(() => {
+        gridBg.style.transform = `translateY(${window.scrollY * 0.04}px)`;
+        ticking = false;
+      });
+      ticking = true;
+    }
+  });
+</script>
 
 </body>
 </html>
