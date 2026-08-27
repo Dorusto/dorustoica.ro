@@ -86,34 +86,6 @@ try {
   ]
 }
 </script>
-<script type="application/ld+json" is:inline>
-{
-  "@context": "https://schema.org",
-  "@type": "FAQPage",
-  "mainEntity": [
-    {
-      "@type": "Question",
-      "name": "Ce înseamnă #DEPPSiT?",
-      "acceptedAnswer": { "@type": "Answer", "text": "„Dacă eu pot, poți și tu.” Motto-ul din spatele conținutului despre self-hosting, homelab și AI local." }
-    },
-    {
-      "@type": "Question",
-      "name": "Ești programator?",
-      "acceptedAnswer": { "@type": "Answer", "text": "Nu de profesie inițială. Sunt software engineer care citește și modifică cod, dar orchestrez AI ca partener de lucru." }
-    },
-    {
-      "@type": "Question",
-      "name": "Faci consultanță tehnică 1-la-1?",
-      "acceptedAnswer": { "@type": "Answer", "text": "Da. Self-hosting, AI local, automatizare personală. O oră, ceva funcțional la final. Se rezervă direct din secțiunea Contact, mai jos." }
-    },
-    {
-      "@type": "Question",
-      "name": "De unde vin cunoștințele tehnice?",
-      "acceptedAnswer": { "@type": "Answer", "text": "Din electrician, inginerie electrică și automatizări industriale (PLC/SCADA), plus construirea propriilor sisteme self-hosted, documentată public." }
-    }
-  ]
-}
-</script>
 <style is:global>
   :root{
     --bg: #10141A;
@@ -285,13 +257,6 @@ try {
   .lab-tile p{ margin: 0; font-size: 12.5px; color: var(--muted); }
 
   /* ===== FAQ ===== */
-  .faq{ padding: 46px 0 6px; }
-  .faq-list{ border-top: 1px solid var(--line); }
-  .faq-item{ padding: 18px 0; border-bottom: 1px solid var(--line); }
-  .faq-item .q{ margin: 0 0 8px; font-family:'IBM Plex Mono', monospace; font-size: 13.5px; font-weight: 600; display:flex; gap: 10px; }
-  .faq-item .q .qmark{ color: var(--accent); }
-  .faq-item .a{ margin: 0; padding-left: 24px; font-size: 13.5px; color: var(--muted); max-width: 62ch; }
-
   /* ===== Channels ===== */
   .board{ padding: 46px 0 16px; }
   .channels{ display: grid; grid-template-columns: 1fr 1fr; gap: 1px; background: var(--line); border: 1px solid var(--line); }
@@ -365,7 +330,6 @@ try {
     <a href="#servicii">Servicii</a>
     <a href="#laborator">Laborator</a>
     <a href="#canale">Canale</a>
-    <a href="#faq">Întrebări</a>
     <a href="#contact">Contact</a>
   </nav>
 </header>
@@ -527,28 +491,6 @@ try {
         <span class="go">Urmează</span>
       </div>
 
-    </div>
-  </section>
-
-  <section class="faq" id="faq">
-    <div class="dim-divider reveal"><span class="tick"></span><span class="line"></span><span class="label">Întrebări</span><span class="line"></span><span class="tick"></span></div>
-    <div class="faq-list">
-      <div class="faq-item reveal">
-        <p class="q"><span class="qmark">Î·</span>Ce înseamnă #DEPPSiT?</p>
-        <p class="a">„Dacă eu pot, poți și tu.” Motto-ul din spatele conținutului despre self-hosting, homelab și AI local.</p>
-      </div>
-      <div class="faq-item reveal">
-        <p class="q"><span class="qmark">Î·</span>Ești programator?</p>
-        <p class="a">Nu de profesie inițială. Sunt software engineer care citește și modifică cod, dar orchestrez AI ca partener de lucru.</p>
-      </div>
-      <div class="faq-item reveal">
-        <p class="q"><span class="qmark">Î·</span>Faci consultanță tehnică 1-la-1?</p>
-        <p class="a">Da. Self-hosting, AI local, automatizare personală. O oră, ceva funcțional la final. Se rezervă direct din secțiunea Contact, mai jos.</p>
-      </div>
-      <div class="faq-item reveal">
-        <p class="q"><span class="qmark">Î·</span>De unde vin cunoștințele tehnice?</p>
-        <p class="a">Din electrician, inginerie electrică și automatizări industriale (PLC/SCADA), plus construirea propriilor sisteme self-hosted, documentată public.</p>
-      </div>
     </div>
   </section>
 
