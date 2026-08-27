@@ -415,6 +415,7 @@ try {
       <div class="channel reveal">
         <div class="channel-top"><span class="stamp">Activ</span></div>
         <span class="tag">Video / YouTube</span>
+        <h3>YouTube</h3>
         {latestYouTube && (
           <ul class="latest-posts">
             <li>
@@ -431,12 +432,12 @@ try {
       <div class="channel reveal">
         <div class="channel-top"><span class="stamp">Activ</span></div>
         <span class="tag">Poze / Pixelfed</span>
+        <h3>Poze</h3>
         {latestPixelfed && (
           <ul class="latest-posts">
             <li>
               <a class="post-link" href={latestPixelfed.link} target="_blank" rel="noopener">
                 {latestPixelfed.image && <span class="post-thumb" style={`background-image:url('${latestPixelfed.image}')`}></span>}
-                <span class="post-text">Vezi poza →</span>
               </a>
             </li>
           </ul>
@@ -447,6 +448,7 @@ try {
       <div class="channel reveal">
         <div class="channel-top"><span class="stamp">Activ</span></div>
         <span class="tag">Din culise</span>
+        <h3>Articole</h3>
         {latestPost && (
           <ul class="latest-posts">
             <li>
@@ -463,6 +465,7 @@ try {
       <div class="channel reveal">
         <div class="channel-top"><span class="stamp">Activ</span></div>
         <span class="tag">Microblog / Mastodon</span>
+        <h3>Semnal</h3>
         <ul class="latest-posts" data-mastodon-latest></ul>
         <a class="go" href="https://mastodon.social/@dorulian" target="_blank" rel="noopener">Vezi tot pe Mastodon →</a>
       </div>
@@ -470,6 +473,7 @@ try {
       <a href="https://t.me/viatacudoru" class="channel reveal" target="_blank" rel="noopener">
         <div class="channel-top"><span class="stamp">Activ</span></div>
         <span class="tag">Chat direct / Telegram</span>
+        <h3>Telegram</h3>
         <p>Locul unde poți vorbi direct cu mine: întrebări, idei, feedback.</p>
         <span class="go">Intră în chat →</span>
       </a>
@@ -477,6 +481,7 @@ try {
       <div class="channel disabled reveal" aria-disabled="true">
         <div class="channel-top"><span class="stamp pending">În lucru</span></div>
         <span class="tag">Video / PeerTube</span>
+        <h3>Arhivă</h3>
         <p>Arhivă video self-hosted pe NAS propriu, în lucru.</p>
         <span class="go">Urmează</span>
       </div>
@@ -533,7 +538,8 @@ try {
         const short = text.length > 200 ? text.slice(0, 200) + '…' : text;
         const image = (s.media_attachments || []).find(m => m.type === 'image');
         const thumb = image ? `<span class="post-thumb" style="background-image:url('${image.preview_url}')"></span>` : '';
-        return `<li><a class="post-link" href="${s.url}" target="_blank" rel="noopener">${thumb}<span class="post-text">${short || 'Vezi postarea →'}</span></a></li>`;
+        const textSpan = short ? `<span class="post-text">${short}</span>` : '';
+        return `<li><a class="post-link" href="${s.url}" target="_blank" rel="noopener">${thumb}${textSpan}</a></li>`;
       }).join('');
     } catch (e){
       // Silent — the static description above already covers this card.
