@@ -1,6 +1,33 @@
 ---
 import '../styles/global.css';
 
+let umamiStats: { yesterday: number; last30: number } | null = null;
+const UMAMI_API_KEY = import.meta.env.UMAMI_API_KEY;
+if (UMAMI_API_KEY) {
+  try {
+    const websiteId = '977ce415-76bd-465e-8dfb-f627cf92f951';
+    const headers = { Authorization: `Bearer ${UMAMI_API_KEY}` };
+    const now = Date.now();
+    const startOfToday = new Date().setUTCHours(0, 0, 0, 0);
+    const startOfYesterday = startOfToday - 24 * 60 * 60 * 1000;
+
+    const yesterdayRes = await fetch(
+      `https://api.umami.is/v1/websites/${websiteId}/stats?startAt=${startOfYesterday}&endAt=${startOfToday}`,
+      { headers }
+    ).then(r => r.json());
+    const last30Res = await fetch(
+      `https://api.umami.is/v1/websites/${websiteId}/stats?startAt=${now - 30 * 24 * 60 * 60 * 1000}&endAt=${now}`,
+      { headers }
+    ).then(r => r.json());
+
+    if (typeof yesterdayRes.visitors === 'number' && typeof last30Res.visitors === 'number') {
+      umamiStats = { yesterday: yesterdayRes.visitors, last30: last30Res.visitors };
+    }
+  } catch (e) {
+    // Build shouldn't fail if Umami is briefly unreachable or the key is missing/invalid.
+  }
+}
+
 let latestPost: { title: string; link: string; image?: string } | null = null;
 try {
   const res = await fetch('https://dorulian.substack.com/feed');
@@ -506,6 +533,9 @@ try {
       </div>
     </div>
     <div class="foot-row">
+      {umamiStats && (
+        <span class="mono">Ieri: {umamiStats.yesterday.toLocaleString('ro-RO')} cititori. Ultimele 30 de zile: {umamiStats.last30.toLocaleString('ro-RO')} cititori.</span>
+      )}
       <span class="mono">© 2026 Doru Stoica</span>
     </div>
   </footer>
