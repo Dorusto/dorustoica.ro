@@ -58,7 +58,7 @@ try {
   // Build shouldn't fail just because YouTube is briefly unreachable.
 }
 
-let latestPixelfed: { link: string; image?: string } | null = null;
+let latestPixelfed: { link: string; image?: string; title: string } | null = null;
 try {
   const res = await fetch('https://pixelfed.social/users/dorulians.atom');
   const xml = await res.text();
@@ -66,7 +66,9 @@ try {
   if (firstEntry) {
     const link = firstEntry.match(/<link rel="alternate" href="([^"]+)"/)?.[1];
     const image = firstEntry.match(/<media:content\s+url="([^"]+)"/)?.[1];
-    if (link) latestPixelfed = { link, image };
+    const rawTitle = firstEntry.match(/<title>([\s\S]*?)<\/title>/)?.[1]?.trim();
+    const title = (rawTitle && rawTitle !== 'No caption') ? rawTitle : 'Poză nouă pe Pixelfed';
+    if (link) latestPixelfed = { link, image, title };
   }
 } catch (e) {
   // Build shouldn't fail just because Pixelfed is briefly unreachable.
@@ -425,7 +427,7 @@ try {
         <div class="tb-row"><dt>Actualizat</dt><dd>2026</dd></div>
         </dl>
       </div>
-      <img class="hero-portrait" src="/doru-portret-hero.webp" alt="Doru Stoica" width="220" height="220" fetchpriority="high">
+      <img class="hero-portrait" src="/doru-portret-hero.webp" srcset="/doru-portret-hero-440.webp 440w, /doru-portret-hero.webp 660w" sizes="220px" alt="Doru Stoica" width="220" height="220" fetchpriority="high">
     </div>
   </section>
 
@@ -506,6 +508,7 @@ try {
             <li>
               <a class="post-link" href={latestPixelfed.link} target="_blank" rel="noopener">
                 {latestPixelfed.image && <span class="post-thumb" style={`background-image:url('${latestPixelfed.image}')`}></span>}
+                <span class="post-text">{latestPixelfed.title}</span>
               </a>
             </li>
           </ul>
@@ -607,11 +610,10 @@ try {
       const statuses = await fetch(`https://mastodon.social/api/v1/accounts/${account.id}/statuses?limit=1&exclude_replies=true&exclude_reblogs=true`).then(r => r.json());
       list.innerHTML = statuses.slice(0, 1).map(s => {
         const text = s.content.replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim();
-        const short = text.length > 200 ? text.slice(0, 200) + '…' : text;
+        const short = text.length > 200 ? text.slice(0, 200) + '…' : (text || 'Postare nouă pe Mastodon');
         const image = (s.media_attachments || []).find(m => m.type === 'image');
         const thumb = image ? `<span class="post-thumb" style="background-image:url('${image.preview_url}')"></span>` : '';
-        const textSpan = short ? `<span class="post-text">${short}</span>` : '';
-        return `<li><a class="post-link" href="${s.url}" target="_blank" rel="noopener">${thumb}${textSpan}</a></li>`;
+        return `<li><a class="post-link" href="${s.url}" target="_blank" rel="noopener">${thumb}<span class="post-text">${short}</span></a></li>`;
       }).join('');
     } catch (e){
       // Silent — the static description above already covers this card.
