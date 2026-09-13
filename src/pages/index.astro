@@ -80,7 +80,7 @@ try {
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Doru Stoica · #DEPPSiT</title>
+<title>Doru Stoica — Automatizări, self-hosting și AI local</title>
 <meta name="description" content="Doru Stoica, automation engineer. Automatizări industriale (PLC/SCADA), self-hosting și AI local. #DEPPSiT: dacă eu pot, poți și tu.">
 <link rel="canonical" href="https://dorustoica.ro">
 <meta property="og:type" content="website">
@@ -113,25 +113,32 @@ try {
 }
 </script>
 <style is:global>
+  /* Palette — powder-coated control-cabinet steel, not developer-portfolio dark mode.
+     One bold accent (--hazard, safety-yellow) spent deliberately, not smeared on every
+     hover/link — see focus-visible, the nameplate corner tab, and the single filled CTA. */
   :root{
-    --bg: #10141A;
-    --panel: #171D25;
-    --panel-hover: #1C232D;
-    --ink: #E7EBEF;
-    --muted: #8A97A6;
-    --line: #2A323D;
-    --accent: #5FD3C4;
-    --accent-warm: #E8A33D;
+    --bg: #14181D;
+    --panel: #1B2027;
+    --panel-hover: #212832;
+    --ink: #ECEEF0;
+    --muted: #8B93A0;
+    --line: #323942;
+    --hazard: #F0C33C;
+    --signal-ok: #57B87A;
+    --signal-wait: #D9A441;
   }
 
+  /* Big Shoulders — lettering modeled on Chicago's industrial-era ironwork signage,
+     used for every headline/nameplate role. Variable font (one file per subset covers
+     the whole weight axis), declared with a weight range rather than one static cut. */
   @font-face{
-    font-family: 'Fraunces'; font-style: normal; font-weight: 600; font-display: swap;
-    src: url('/fonts/fraunces-600-latin.woff2') format('woff2');
+    font-family: 'Big Shoulders'; font-style: normal; font-weight: 100 900; font-display: swap;
+    src: url('/fonts/big-shoulders-var-latin.woff2') format('woff2');
     unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
   }
   @font-face{
-    font-family: 'Fraunces'; font-style: normal; font-weight: 600; font-display: swap;
-    src: url('/fonts/fraunces-600-latin-ext.woff2') format('woff2');
+    font-family: 'Big Shoulders'; font-style: normal; font-weight: 100 900; font-display: swap;
+    src: url('/fonts/big-shoulders-var-latin-ext.woff2') format('woff2');
     unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
   }
   @font-face{
@@ -180,10 +187,10 @@ try {
 
   a{ color: inherit; }
   .mono{ font-family: 'IBM Plex Mono', monospace; }
-  ::selection{ background: var(--accent); color: #17130F; }
+  ::selection{ background: var(--hazard); color: #191500; }
 
   a:focus-visible, button:focus-visible{
-    outline: 2px solid var(--accent);
+    outline: 2px solid var(--hazard);
     outline-offset: 3px;
   }
 
@@ -231,62 +238,162 @@ try {
   }
 
   .brand{ display:flex; align-items:center; gap: 12px; text-decoration: none; color: var(--ink); }
-  .brand-text{ display:flex; flex-direction:column; line-height:1.25; }
-  .brand-name{ font-family: 'IBM Plex Mono', monospace; font-weight: 600; font-size: 14px; letter-spacing: 0.05em; }
-  .brand-tag{ font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: var(--accent-warm); letter-spacing: 0.06em; }
+  .brand-text{ display:flex; flex-direction:column; line-height:1.15; }
+  .brand-name{ font-family: 'Big Shoulders', sans-serif; font-weight: 700; font-size: 20px; letter-spacing: 0.01em; }
+  .brand-tag{ font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: var(--muted); letter-spacing: 0.06em; }
 
-  nav{ display:flex; gap: 20px; flex-wrap: wrap; }
+  /* Nav reads as a row of DIN-rail terminal labels — a thin top rule per item stands
+     in for the printed strip on a real terminal block, instead of a color-change hover. */
+  nav{ display:flex; gap: 22px; flex-wrap: wrap; }
   nav a{
-    font-family:'IBM Plex Mono', monospace;
-    font-size: 12.5px;
-    letter-spacing: 0.06em;
+    font-family:'Big Shoulders', sans-serif;
+    font-weight: 600;
+    font-size: 14.5px;
+    letter-spacing: 0.02em;
     text-decoration:none;
     color: var(--muted);
-    text-transform: uppercase;
-    transition: color .15s ease;
+    padding-top: 6px;
+    border-top: 2px solid transparent;
+    transition: color .15s ease, border-color .15s ease;
   }
-  nav a:hover{ color: var(--accent); }
+  nav a:hover{ color: var(--ink); border-top-color: var(--hazard); }
+  /* Persistent CTA — outline-hazard so the page keeps only two solid-yellow moments
+     (the hero action and the contact one); it fills on hover. */
+  nav a.nav-cta{
+    border: 1px solid var(--hazard); color: var(--hazard); font-weight: 700;
+    padding: 5px 12px; border-radius: 2px;
+  }
+  nav a.nav-cta:hover{ background: var(--hazard); color: #191500; border-color: var(--hazard); }
 
   main{ max-width: 940px; margin: 0 auto; padding: 0 24px; }
+  section[id]{ scroll-margin-top: 96px; }
 
-  .dim-divider{ display:flex; align-items:center; margin: 0 0 26px; }
-  .dim-divider .tick{ width:1px; height:9px; background: var(--line); flex-shrink:0; }
+  /* Section dividers as a ladder-logic rung, not a generic eyebrow label — two contact
+     nodes (.tick) on a horizontal rail (.line) with the section name sitting mid-rung,
+     the way a PLC diagram names a rung in the margin. Same three child elements the
+     markup already had; only their shape changed. */
+  .dim-divider{ display:flex; align-items:center; margin: 0 0 28px; }
+  .dim-divider .tick{
+    width:7px; height:7px; border-radius:50%;
+    border: 1.5px solid var(--line); background: var(--bg); flex-shrink:0;
+  }
   .dim-divider .line{ flex:1; height:1px; background: var(--line); }
   .dim-divider .label{
-    padding: 0 14px;
-    font-family:'IBM Plex Mono', monospace;
-    font-size: 12px;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    color: var(--muted);
+    padding: 3px 14px;
+    margin: 0 2px;
+    font-family:'Big Shoulders', sans-serif;
+    font-weight: 700;
+    font-size: 15px;
+    letter-spacing: 0.02em;
+    color: var(--ink);
+    background: var(--panel);
+    border: 1px solid var(--line);
     white-space: nowrap;
   }
 
   .reveal{ opacity: 0; transform: translateY(14px); transition: opacity .55s ease, transform .55s ease; }
   .reveal.is-visible{ opacity: 1; transform: translateY(0); }
-  @media (prefers-reduced-motion: reduce){ .reveal{ opacity:1; transform:none; transition:none; } }
+  @media (prefers-reduced-motion: reduce){ .reveal{ opacity:1; transform:none; transition:none; } .hmi-dot{ animation: none; } }
 
   /* ===== Hero ===== */
   .hero{ padding: 48px 0 44px; }
 
-  .hero-row{ display:flex; gap: 28px; align-items: flex-start; flex-wrap: wrap; }
-  .hero-portrait{ width: 220px; aspect-ratio: 1 / 1; object-fit: cover; border: 1px solid var(--line); background: var(--bg); flex-shrink: 0; }
-  .title-block{ border: 1px solid var(--line); max-width: 640px; flex: 1 1 480px; background: color-mix(in srgb, var(--panel) 55%, transparent); }
+  /* The actual pitch: a plain-language headline + next step, so the first three
+     seconds answer "what, for whom, what do I do" — the rating plate below is the
+     supporting detail, not the opener. */
+  .hero-intro{ max-width: 720px; margin: 0 0 24px; }
+  .hero-title{
+    margin: 0 0 22px; font-family:'Big Shoulders', sans-serif; font-weight: 800;
+    font-size: clamp(40px, 6.6vw, 66px); line-height: 1.0; letter-spacing: 0.005em;
+    text-transform: uppercase; color: var(--ink);
+  }
+  .hero-title .nb{ white-space: nowrap; }
+  .hero-actions{ display:flex; flex-wrap: wrap; align-items: center; gap: 12px; }
+  .cta{
+    display:inline-flex; align-items:center; gap: 8px; text-decoration: none;
+    font-family:'IBM Plex Mono', monospace; font-size: 14px; padding: 12px 20px;
+    border: 1px solid var(--line); transition: background .15s ease, border-color .15s ease, color .15s ease;
+  }
+  .cta-primary{ background: var(--hazard); border-color: var(--hazard); color: #191500; font-weight: 600; }
+  .cta-primary:hover{ background: color-mix(in srgb, var(--hazard) 85%, white); }
+  .cta-ghost{ background: var(--panel); color: var(--ink); }
+  .cta-ghost:hover{ border-color: var(--ink); }
+  .hero-motto{
+    margin: 18px 0 0; font-family:'IBM Plex Mono', monospace; font-size: 12px;
+    letter-spacing: 0.06em; color: var(--muted);
+  }
+
+  /* Decorative SCADA-style status strip — reads as equipment that is actually running,
+     which is the whole point of the industrial theme. Content mirrors real sections. */
+  .hmi{
+    display:flex; flex-wrap: wrap; align-items: center; gap: 9px 18px;
+    background: var(--panel); border: 1px solid var(--line); padding: 12px 16px;
+    margin: 0 0 28px;
+  }
+  .hmi-item{
+    display:inline-flex; align-items:center; gap: 7px;
+    font-family:'IBM Plex Mono', monospace; font-size: 12px; letter-spacing: 0.04em; color: var(--muted);
+  }
+  .hmi-item b{ color: var(--ink); font-weight: 400; }
+  .hmi-dot{
+    width:7px; height:7px; border-radius:50%; background: var(--signal-ok); flex-shrink: 0;
+    box-shadow: 0 0 6px 1px color-mix(in srgb, var(--signal-ok) 70%, transparent);
+    animation: hmi-pulse 2.4s ease-in-out infinite;
+  }
+  .hmi-item.wait .hmi-dot{ background: transparent; border: 1.5px solid var(--signal-wait); box-shadow: none; }
+  .hmi-sep{ width:1px; height: 14px; background: var(--line); }
+  @keyframes hmi-pulse{ 0%, 100%{ opacity:1; } 50%{ opacity:.35; } }
+
+  .hero-row{ display:flex; gap: 28px; align-items: stretch; flex-wrap: wrap; }
+  .hero-portrait{ width: 220px; height: auto; object-fit: cover; object-position: center top; border: 1px solid var(--line); background: var(--bg); flex-shrink: 0; }
+
+  /* The "fișă tehnică" as an actual equipment rating plate: a riveted corner at each
+     end (::before/::after, pure decoration, no markup change) and a hazard-yellow
+     tab standing in for the manufacturer's certification sticker. */
+  .title-block{
+    position: relative;
+    border: 1px solid var(--line); max-width: 640px; flex: 1 1 480px;
+    background: color-mix(in srgb, var(--panel) 60%, transparent);
+  }
+  .title-block::before, .title-block::after{
+    content:''; position:absolute; top:-4px; width:7px; height:7px; border-radius:50%;
+    background: var(--line); box-shadow: 0 0 0 1px var(--bg);
+  }
+  .title-block::before{ left:-4px; }
+  .title-block::after{ right:-4px; }
   .title-block dl{ margin: 0; }
   .title-block .tb-head{
+    position: relative;
     display:flex; justify-content: space-between; align-items: baseline;
     padding: 10px 16px; border-bottom: 1px solid var(--line); background: var(--panel);
   }
-  .title-block .tb-head span{ font-family:'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); }
+  .title-block .tb-head::before{
+    content:''; position:absolute; left:0; top:0; bottom:0; width:4px; background: var(--hazard);
+  }
+  .title-block .tb-head span{ font-family:'Big Shoulders', sans-serif; font-weight: 700; font-size: 13px; letter-spacing: 0.04em; color: var(--muted); }
   .tb-row{ display: grid; grid-template-columns: 130px 1fr; border-bottom: 1px solid var(--line); }
   .tb-row:last-child{ border-bottom: none; }
   .tb-row dt{
-    margin:0; font-family:'IBM Plex Mono', monospace; font-size: 11.5px; letter-spacing: 0.08em;
-    text-transform: uppercase; color: var(--muted); padding: 10px 14px; border-right: 1px solid var(--line);
+    margin:0; font-family:'Big Shoulders', sans-serif; font-weight: 600; font-size: 13.5px; letter-spacing: 0.03em;
+    color: var(--muted); padding: 10px 14px; border-right: 1px solid var(--line);
     display:flex; align-items:center;
   }
-  .tb-row dd{ margin:0; font-size: 14.5px; color: var(--ink); padding: 10px 14px; display:flex; align-items:center; }
-  .tb-row dd .accent{ color: var(--accent-warm); font-family:'IBM Plex Mono', monospace; font-weight: 600; }
+  .tb-row dd{ margin:0; font-family:'IBM Plex Mono', monospace; font-size: 14px; color: var(--ink); padding: 10px 14px; display:flex; align-items:center; }
+  .tb-row dd .accent{ color: var(--hazard); font-family:'IBM Plex Mono', monospace; font-weight: 600; }
+
+  /* ===== Evidence strip ===== */
+  /* Verifiable facts, not a wall of logos: what exists, how much of it, and the stack
+     it all runs on. Sits directly under the hero as the first credibility signal. */
+  .proof{
+    display:flex; flex-wrap: wrap; align-items: center; justify-content: space-between;
+    gap: 16px 28px; padding: 18px 0; margin: 0 0 6px;
+    border-top: 1px solid var(--line); border-bottom: 1px solid var(--line);
+  }
+  .proof-stats{ display:flex; flex-wrap: wrap; gap: 12px 34px; }
+  .proof-stat{ display:flex; flex-direction: column; gap: 3px; }
+  .proof-num{ font-family:'Big Shoulders', sans-serif; font-weight: 800; font-size: 28px; line-height: 1; color: var(--ink); }
+  .proof-label{ font-family:'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted); }
+  .proof-stack{ font-family:'IBM Plex Mono', monospace; font-size: 11.5px; letter-spacing: 0.04em; color: var(--muted); }
 
   /* ===== Fact tiles ===== */
   .capabilities{ padding: 46px 0 6px; }
@@ -295,7 +402,7 @@ try {
   .cap-tile{ background: var(--panel); padding: 22px 20px; display:flex; flex-direction: column; gap: 9px; text-decoration: none; color: var(--ink); transition: background .15s ease; }
   .cap-tile:hover{ background: var(--panel-hover); }
   /* Single reusable tag style, used by every card type so color never drifts between sections again */
-  .tag{ font-family:'IBM Plex Mono', monospace; font-size: 11.5px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--accent); }
+  .tag{ font-family:'Big Shoulders', sans-serif; font-weight: 700; font-size: 14px; letter-spacing: 0.01em; color: var(--ink); }
   .cap-tile p{ margin:0; font-size: 14.5px; color: var(--muted); }
 
   /* ===== Featured project ===== */
@@ -306,11 +413,13 @@ try {
   }
   .feature:hover{ background: var(--panel-hover); }
   .feature-left{ display:flex; flex-direction:column; gap:4px; }
-  .feature-title{ font-family: 'Fraunces', serif; font-size: 20px; font-weight: 600; }
+  .feature-title{ font-family: 'Big Shoulders', sans-serif; font-size: 24px; font-weight: 700; }
   .feature p{ margin: 2px 0 0; font-size: 14px; color: var(--muted); max-width: 46ch; }
-  /* Single reusable "go" link style, used by every card type so it never drifts apart again */
-  .go{ margin-top: auto; font-family:'IBM Plex Mono', monospace; font-size: 13px; color: var(--accent); white-space: nowrap; transition: transform .15s ease; }
-  .channel:hover .go, .feature:hover .go, .lab-tile:hover .go, .cap-tile:hover .go{ transform: translateX(3px); }
+  /* Single reusable "go" link style — quiet by default (the ink color already reads as
+     a link next to muted body text); the hazard accent is spent on hover only, not
+     resting state, so it stays a genuine interaction cue rather than more decoration. */
+  .go{ margin-top: auto; font-family:'IBM Plex Mono', monospace; font-size: 13px; color: var(--ink); white-space: nowrap; transition: color .15s ease, transform .15s ease; }
+  .channel:hover .go, .feature:hover .go, .lab-tile:hover .go, .cap-tile:hover .go{ color: var(--hazard); transform: translateX(3px); }
   .channel.disabled .go{ color: var(--muted); }
   .channel.disabled:hover .go{ transform: none; }
   .majordom-section{ padding: 46px 0 6px; }
@@ -321,7 +430,7 @@ try {
     display:flex; flex-direction: column; gap: 8px; transition: background .15s ease;
   }
   .lab-tile:hover{ background: var(--panel-hover); }
-  .lab-tile h4{ font-family: 'Fraunces', serif; font-size: 16px; margin: 0; font-weight: 600; }
+  .lab-tile h4{ font-family: 'Big Shoulders', sans-serif; font-size: 19px; margin: 0; font-weight: 700; }
   .lab-tile p{ margin: 0; font-size: 13.5px; color: var(--muted); }
 
   /* ===== FAQ ===== */
@@ -339,24 +448,32 @@ try {
 
   .channel-top{ display:flex; align-items:center; justify-content: space-between; }
 
+  /* Status stamps as panel indicator lights, not rotated washi tape — a filled dot
+     (lit/steady for shipped work, hollow/dashed for pending) reads instantly the way
+     a real control-panel pilot light does. */
   .stamp{
-    display:inline-block; font-family:'IBM Plex Mono', monospace; font-size: 10.5px; letter-spacing: 0.08em;
-    text-transform: uppercase; padding: 3px 9px; border: 1.5px solid var(--accent-warm); color: var(--accent-warm);
-    transform: rotate(-2.5deg);
+    display:inline-flex; align-items:center; gap: 6px;
+    font-family:'IBM Plex Mono', monospace; font-size: 10.5px; letter-spacing: 0.06em;
+    color: var(--signal-ok);
   }
-  .stamp.pending{ border-style: dashed; border-color: var(--muted); color: var(--muted); transform: rotate(-1.5deg); }
+  .stamp::before{
+    content:''; width:7px; height:7px; border-radius:50%; background: var(--signal-ok);
+    box-shadow: 0 0 5px 1px color-mix(in srgb, var(--signal-ok) 70%, transparent);
+  }
+  .stamp.pending{ color: var(--signal-wait); }
+  .stamp.pending::before{ background: transparent; border: 1.5px solid var(--signal-wait); box-shadow: none; }
 
-  .channel h3{ font-family: 'Fraunces', serif; font-size: 18px; margin: 0; font-weight: 600; }
+  .channel h3{ font-family: 'Big Shoulders', sans-serif; font-size: 22px; margin: 0; font-weight: 700; }
   .channel p{ margin: 0; font-size: 14.5px; color: var(--muted); max-width: 44ch; }
   .embed-frame{ border: 1px solid var(--line); background: var(--bg); padding: 4px; }
   .embed-frame iframe{ display: block; width: 100%; }
   .embed-facade{
     display:flex; align-items:center; justify-content:center;
     width:100%; height:160px; background:transparent; border:none; cursor:pointer;
-    font-family:'IBM Plex Mono', monospace; font-size: 13.5px; color: var(--accent);
+    font-family:'IBM Plex Mono', monospace; font-size: 13.5px; color: var(--ink);
     transition: color .15s ease;
   }
-  .embed-facade:hover{ color: var(--accent-warm); }
+  .embed-facade:hover{ color: var(--hazard); }
 
   .latest-posts{ list-style: none; margin: 6px 0 4px; padding: 0; }
   .post-link{ display: flex; flex-direction: column; gap: 8px; text-decoration: none; }
@@ -366,8 +483,8 @@ try {
     display: -webkit-box; -webkit-line-clamp: 3; line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden;
     transition: color .15s ease;
   }
-  .post-link:hover .post-text{ color: var(--accent-warm); }
-  .post-link:hover .post-thumb{ border-color: var(--accent-warm); }
+  .post-link:hover .post-text{ color: var(--ink); }
+  .post-link:hover .post-thumb{ border-color: var(--hazard); }
 
   /* ===== Contact ===== */
   .utility{ padding: 46px 0 24px; }
@@ -375,11 +492,15 @@ try {
   .util-links a{
     font-family:'IBM Plex Mono', monospace; font-size: 13.5px; text-decoration:none; color: var(--ink);
     background: var(--panel); border: 1px solid var(--line); padding: 10px 16px; display:flex; align-items:center; gap: 8px;
-    transition: border-color .15s ease, color .15s ease;
+    transition: border-color .15s ease, color .15s ease, background .15s ease;
   }
-  .util-links a:hover{ border-color: var(--accent); color: var(--accent); }
-  .util-links a.highlight{ border-color: var(--accent); color: var(--accent); }
-  .util-links a.highlight:hover{ background: var(--panel-hover); }
+  .util-links a:hover{ border-color: var(--ink); }
+  /* The one filled, bold moment on the page — a real CTA gets the hazard treatment
+     the way a control panel reserves solid yellow for the one switch that matters. */
+  .util-links a.highlight{
+    border-color: var(--hazard); background: var(--hazard); color: #191500; font-weight: 600;
+  }
+  .util-links a.highlight:hover{ background: color-mix(in srgb, var(--hazard) 85%, white); }
 
   footer{ border-top: 1px solid var(--line); padding: 26px 0 46px; display:flex; flex-direction: column; gap: 22px; }
   .subscribe-box{ max-width: 420px; }
@@ -387,7 +508,25 @@ try {
   footer .mono{ font-size: 12px; color: var(--muted); letter-spacing: 0.04em; }
 
   @media (max-width: 660px){ header{ padding: 18px 24px; } }
+
+  /* Big Shoulders is far more condensed than the old serif — the fixed 130px nameplate
+     label column and 22px nav gaps that suited the previous face now waste space at
+     narrow widths, squeezing the values. Tighten the grid and nav so text keeps room. */
+  @media (max-width: 520px){
+    .tb-row{ grid-template-columns: 104px 1fr; }
+    .hero-portrait{ width: 176px; }
+    nav{ gap: 18px; }
+    .hmi-sep{ display: none; }
+    .hero-title{ font-size: clamp(36px, 10vw, 48px); }
+  }
+  @media (max-width: 380px){
+    .tb-row{ grid-template-columns: 88px 1fr; }
+    .tb-row dt, .tb-row dd{ padding: 10px 10px; }
+    nav{ gap: 13px; }
+    nav a{ font-size: 13.5px; }
+  }
 </style>
+<noscript><style>.reveal{ opacity:1 !important; transform:none !important; }</style></noscript>
 </head>
 <body>
 
@@ -406,12 +545,32 @@ try {
     <a href="#laborator">Laborator</a>
     <a href="#canale">Canale</a>
     <a href="#contact">Contact</a>
+    <a class="nav-cta" href="https://cal.com/dorulian" target="_blank" rel="noopener">Rezervă</a>
   </nav>
 </header>
 
 <main>
 
   <section class="hero">
+    <div class="hero-intro reveal">
+      <h1 class="hero-title">Automatizări, <span class="nb">self-hosting</span> și AI local.</h1>
+      <div class="hero-actions">
+        <a class="cta cta-primary" href="https://cal.com/dorulian" target="_blank" rel="noopener">Rezervă o consultanță</a>
+        <a class="cta cta-ghost" href="#laborator">Vezi ce construiesc →</a>
+      </div>
+      <p class="hero-motto">#DEPPSiT — dacă eu pot, poți și tu</p>
+    </div>
+
+    <div class="hmi reveal">
+      <span class="hmi-item"><span class="hmi-dot"></span> SISTEM <b>online</b></span>
+      <span class="hmi-sep"></span>
+      <span class="hmi-item wait"><span class="hmi-dot"></span> MAJORDOM <b>în lucru</b></span>
+      <span class="hmi-sep"></span>
+      <span class="hmi-item wait"><span class="hmi-dot"></span> YT-PIPELINE <b>în lucru</b></span>
+      <span class="hmi-sep"></span>
+      <span class="hmi-item"><span class="hmi-dot"></span> CANALE <b>5 active</b></span>
+    </div>
+
     <div class="dim-divider reveal"><span class="tick"></span><span class="line"></span><span class="label">Identitate</span><span class="line"></span><span class="tick"></span></div>
 
     <div class="hero-row">
@@ -421,14 +580,24 @@ try {
         <div class="tb-row"><dt>Nume</dt><dd>Doru Stoica</dd></div>
         <div class="tb-row"><dt>Rol</dt><dd>Automation engineer</dd></div>
         <div class="tb-row"><dt>Origine</dt><dd>Electrician, inginerie electrică, automatizări industriale</dd></div>
-        <div class="tb-row"><dt>Stack</dt><dd>Linux · self-hosted · homelab · LLM local · Majordom</dd></div>
+        <div class="tb-row"><dt>Stack</dt><dd>Linux · self-hosted · homelab · LLM local · Majordom · Docker · Proxmox · NAS · Ollama · ComfyUI</dd></div>
         <div class="tb-row"><dt>Focus</dt><dd>Suveranitate digitală</dd></div>
         <div class="tb-row"><dt>Motto</dt><dd><span class="accent">#DEPPSiT</span> · Dacă eu pot, poți și tu</dd></div>
-        <div class="tb-row"><dt>Actualizat</dt><dd>2026</dd></div>
         </dl>
       </div>
       <img class="hero-portrait" src="/doru-portret-hero.webp" srcset="/doru-portret-hero-440.webp 440w, /doru-portret-hero.webp 660w" sizes="220px" alt="Doru Stoica" width="220" height="220" fetchpriority="high">
     </div>
+  </section>
+
+  <section class="proof reveal">
+    <div class="proof-stats">
+      <div class="proof-stat"><span class="proof-num">03</span><span class="proof-label">proiecte active</span></div>
+      <div class="proof-stat"><span class="proof-num">05</span><span class="proof-label">canale publice</span></div>
+      {umamiStats && (
+        <div class="proof-stat"><span class="proof-num">{umamiStats.last30.toLocaleString('ro-RO')}</span><span class="proof-label">cititori / 30 zile</span></div>
+      )}
+    </div>
+    <span class="proof-stack">Linux · Proxmox · Docker · NAS · Ollama · ComfyUI</span>
   </section>
 
   <section class="capabilities" id="servicii">
